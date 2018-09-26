@@ -81,6 +81,7 @@
 % Needed to deal a paragraphs
 \RequirePackage{parskip}
 % Needed to deal hyperlink
+%\RequirePackage[colorlinks=true, linkcolor=blue, citecolor=black, urlcolor=darkgray]{hyperref}
 \RequirePackage[hidelinks,unicode]{hyperref}
 \hypersetup{%
   pdftitle={},
@@ -88,6 +89,7 @@
   pdfsubject={},
   pdfkeywords={}
 }
+\RequirePackage{tikz}
 
 
 %-------------------------------------------------------------------------------
@@ -584,6 +586,29 @@
 }
 
 
+\newcommand{\cvtag}[1]{%
+  \tikz[baseline]\node[anchor=base,draw=darkgray!70,rounded corners=0.5ex,inner xsep=1ex,inner ysep =0.55ex,text height=1.3ex,text depth=.25ex]{#1};
+}
+% Define an entry of cv information
+% Usage: \rxentry{<position>}{<title>}{<location>}{<date>}{<description>}{<skill list>}
+\newcommand*{\rsexperience}[6]{%
+  \setlength\tabcolsep{0pt}
+  \setlength{\extrarowheight}{0pt}
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} L{\textwidth - 4.5cm} R{4.5cm}}
+    \ifempty{#2#3}
+      {\descriptionstyle{#1} & \entrydatestyle{#4} \\}
+      {\entrytitlestyle{#2} & \entrylocationstyle{#3} \\
+      \descriptionstyle{#1} & \entrydatestyle{#4} \\}
+    \multicolumn{2}{L{\textwidth}}{\subdescriptionstyle{#5}} \\
+  \end{tabular*} \\%
+ \vspace{-1.0mm}
+  \begin{flushleft}
+	\footnotesize{\foreach \n in {#6}{\cvtag{\n}}} 	
+  \end{flushleft}
+        
+}
+
+
 \newcommand*{\cvexperience}[5]{%
   \vspace{-2.0mm}
   \setlength\tabcolsep{0pt}
@@ -665,6 +690,8 @@
 \newcommand*{\cvhonor}[4]{%
   \honordatestyle{#4} & \honorpositionstyle{#1}, \honortitlestyle{#2} & \honorlocationstyle{#3} \\
 }
+
+
 
 % Define an environment for cvskill
 \newenvironment{cvskills}{%
